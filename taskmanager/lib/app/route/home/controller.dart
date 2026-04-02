@@ -17,6 +17,9 @@ class HomeController extends GetxController {
   final tasks = <Task>[].obs;
   final task = Rx<Task?>(null);
 
+  final doingTodos = <dynamic>[].obs;
+  final doneTodos = <dynamic>[].obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -36,6 +39,20 @@ class HomeController extends GetxController {
 
   void changeTask(Task? task) => this.task.value = task;
 
+  void changeTodos(List<dynamic> select) {
+    doingTodos.clear();
+    doneTodos.clear();
+    for (int i = 0; i < select.length; i++) {
+      var todo = select[i];
+      var status = todo.toString().contains('done: true');
+      if (status) {
+        doneTodos.add(todo.toString());
+      } else {
+        doingTodos.add(todo.toString());
+      }
+    }
+  }
+
   bool addTask(Task task) {
     if(tasks.contains(task)) {
       return false;
@@ -51,9 +68,9 @@ class HomeController extends GetxController {
   bool updateTask(Task task, String title) {
     var todos = task.todos ?? [];
     
-    if (containTodo(todos, title)) {
-      return false;
-    }
+    // if (containTodo(todos, title)) {
+    //   return false;
+    // }
     var todo = {'title': title, 'done': false};
     todos.add(todo.toString());
     var newTask = task.copyWith(todos: todos);
