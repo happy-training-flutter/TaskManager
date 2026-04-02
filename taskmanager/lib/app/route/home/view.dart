@@ -6,6 +6,7 @@ import 'package:taskmanager/app/core/values/colors.dart';
 import 'package:taskmanager/app/data/models/task.dart';
 import 'package:taskmanager/app/route/home/controller.dart';
 import 'package:taskmanager/app/route/home/widgets/add_cart.dart';
+import 'package:taskmanager/app/route/home/widgets/add_dialog.dart';
 import 'package:taskmanager/app/route/home/widgets/task_card.dart';
 
 class HomePage extends GetView<HomeController> {
@@ -54,7 +55,9 @@ class HomePage extends GetView<HomeController> {
         builder: (_, _, _) {
           return Obx(() =>
             FloatingActionButton(
-              onPressed: () {},
+              onPressed: () {
+                Get.to(()=> AddDialog());
+              },
               backgroundColor: controller.deleting.value ? Colors.red : blue,
               foregroundColor: Colors.white,
               child: Icon(controller.deleting.value ? Icons.delete : Icons.add),
