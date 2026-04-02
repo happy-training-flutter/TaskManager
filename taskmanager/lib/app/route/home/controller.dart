@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:taskmanager/app/data/models/task.dart';
@@ -54,7 +52,7 @@ class HomeController extends GetxController {
   }
 
   bool addTask(Task task) {
-    if(tasks.contains(task)) {
+    if (tasks.contains(task)) {
       return false;
     }
     tasks.add(task);
@@ -67,7 +65,7 @@ class HomeController extends GetxController {
 
   bool updateTask(Task task, String title) {
     var todos = task.todos ?? [];
-    
+
     // if (containTodo(todos, title)) {
     //   return false;
     // }
@@ -82,5 +80,25 @@ class HomeController extends GetxController {
 
   bool containTodo(List todos, String title) {
     return todos.any((element) => element['title'] == title);
+  }
+
+  bool addTodo(String title) {
+    var todo = {'title': title, 'done': false};
+    doingTodos.add(todo.toString());
+    return true;
+  }
+
+  void updateTodos() {
+    List<String> newTodos = [];
+    newTodos.addAll([...doingTodos, ...doneTodos]);
+
+    var newTask = task.value!.copyWith(todos: newTodos);
+    int oldIdx = tasks.indexOf(task.value);
+    tasks[oldIdx] = newTask;
+    tasks.refresh();
+  }
+
+  void doneTodo() {
+    
   }
 }
