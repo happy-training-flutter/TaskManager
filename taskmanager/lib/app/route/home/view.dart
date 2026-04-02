@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:taskmanager/app/core/utils/extension.dart';
+import 'package:taskmanager/app/data/models/task.dart';
 import 'package:taskmanager/app/route/home/controller.dart';
 import 'package:taskmanager/app/route/home/widgets/add_cart.dart';
+import 'package:taskmanager/app/route/home/widgets/task_card.dart';
 
 class HomePage extends GetView<HomeController> {
   const HomePage({super.key});
@@ -23,12 +25,17 @@ class HomePage extends GetView<HomeController> {
                 ),
               ),
             ),
-            GridView.count(
+            Obx(() => GridView.count(
               crossAxisCount: 2,
               shrinkWrap: true,
               physics: const ClampingScrollPhysics(),
-              children: [AddCart()],
-            )
+              children: [
+                ...controller.tasks
+                  .map((element) => TaskCard(task: element)),
+                TaskCard(task: Task(title: 'title', icon: 0xe59c, color: '2B60E6', todos: [])),
+                AddCart()
+              ],
+            )),
           ],
         )
       )
