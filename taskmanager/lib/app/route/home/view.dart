@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:taskmanager/app/core/utils/extension.dart';
+import 'package:taskmanager/app/core/values/colors.dart';
 import 'package:taskmanager/app/data/models/task.dart';
 import 'package:taskmanager/app/route/home/controller.dart';
 import 'package:taskmanager/app/route/home/widgets/add_cart.dart';
@@ -31,14 +33,39 @@ class HomePage extends GetView<HomeController> {
               physics: const ClampingScrollPhysics(),
               children: [
                 ...controller.tasks
-                  .map((element) => TaskCard(task: element)),
-                TaskCard(task: Task(title: 'title', icon: 0xe59c, color: '2B60E6', todos: [])),
+                  .map((element) => LongPressDraggable(
+                    data: element,
+                    onDragStarted: () => controller.changeDeleting(true),
+                    onDragEnd: (_) => controller.changeDeleting(false),
+                    onDraggableCanceled: (_, _) => controller.changeDeleting(false),
+                    feedback: Opacity(
+                      opacity: 0.8, 
+                      child: TaskCard(task: element),
+                    ),
+                    child: TaskCard(task: element)
+                  )),
                 AddCart()
               ],
             )),
           ],
         )
-      )
+      ),
+      floatingActionButton: DragTarget<Task>(
+        builder: (_, _, _) {
+          return Obx(() =>
+            FloatingActionButton(
+              onPressed: () {},
+              backgroundColor: controller.deleting.value ? Colors.red : blue,
+              foregroundColor: Colors.white,
+              child: Icon(controller.deleting.value ? Icons.delete : Icons.add),
+            ),
+          );
+        },
+        onAccept: (task) {
+          controller.deleteTask(task);
+          EasyLoading.showSuccess('Delete Success');
+        } 
+      ),
     );
   }
 }
