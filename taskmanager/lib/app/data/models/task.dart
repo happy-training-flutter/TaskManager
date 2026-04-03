@@ -32,7 +32,9 @@ class Task extends Equatable {
       title: json['title'],
       icon: json['icon'],
       color: json['color'],
-      todos: List<TodoExmaple>.from(json['todos']),
+      todos: (json['todos'] as List)
+          .map((e) => TodoExmaple.fromJson(e))
+          .toList(),
     );
   }
 
@@ -41,7 +43,7 @@ class Task extends Equatable {
       'title': title,
       'icon': icon,
       'color': color,
-      'todos': todos,
+      'todos': todos.map((e) => e.toJson()).toList(),
     };
   }
   
