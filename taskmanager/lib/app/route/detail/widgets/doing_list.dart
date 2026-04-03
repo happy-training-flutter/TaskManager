@@ -36,13 +36,13 @@ class DoingList extends StatelessWidget {
                         height: 20,
                         child: Checkbox(
                           fillColor: MaterialStateProperty.resolveWith((states) => Colors.grey),
-                          value: false,
+                          value: element.done,
                           onChanged: (value) => homeCtrl.doneTodos,
                         ),
                       ),
                       SizedBox(width: 3.0.wp),
                       Text(
-                        'Created Demo Task',
+                        element.title,
                         overflow: TextOverflow.ellipsis,
                       )
                     ],

@@ -15,8 +15,8 @@ class HomeController extends GetxController {
   final tasks = <Task>[].obs;
   final task = Rx<Task?>(null);
 
-  final doingTodos = <dynamic>[].obs;
-  final doneTodos = <dynamic>[].obs;
+  final doingTodos = <TodoExmaple>[].obs;
+  final doneTodos = <TodoExmaple>[].obs;
 
   @override
   void onInit() {
@@ -37,16 +37,16 @@ class HomeController extends GetxController {
 
   void changeTask(Task? task) => this.task.value = task;
 
-  void changeTodos(List<dynamic> select) {
+  void changeTodos(List<TodoExmaple> select) {
     doingTodos.clear();
     doneTodos.clear();
     for (int i = 0; i < select.length; i++) {
       var todo = select[i];
-      var status = todo.toString().contains('done: true');
+      var status = todo.done;
       if (status) {
-        doneTodos.add(todo.toString());
+        doneTodos.add(todo);
       } else {
-        doingTodos.add(todo.toString());
+        doingTodos.add(todo);
       }
     }
   }
@@ -64,13 +64,13 @@ class HomeController extends GetxController {
   }
 
   bool updateTask(Task task, String title) {
-    var todos = task.todos ?? [];
+    var todos = task.todos;
 
-    // if (containTodo(todos, title)) {
-    //   return false;
-    // }
-    var todo = {'title': title, 'done': false};
-    todos.add(todo.toString());
+    if (containTodo(todos, title)) {
+      return false;
+    }
+    // var todo = {'title': title, 'done': false};
+    todos.add(TodoExmaple(title: title, done: false));
     var newTask = task.copyWith(todos: todos);
     int oldIdx = tasks.indexOf(task);
     tasks[oldIdx] = newTask;
@@ -83,13 +83,13 @@ class HomeController extends GetxController {
   }
 
   bool addTodo(String title) {
-    var todo = {'title': title, 'done': false};
-    doingTodos.add(todo.toString());
+    // var todo = {'title': title, 'done': false};
+    doingTodos.add(TodoExmaple(done: false, title: title));
     return true;
   }
 
   void updateTodos() {
-    List<String> newTodos = [];
+    List<TodoExmaple> newTodos = [];
     newTodos.addAll([...doingTodos, ...doneTodos]);
 
     var newTask = task.value!.copyWith(todos: newTodos);
