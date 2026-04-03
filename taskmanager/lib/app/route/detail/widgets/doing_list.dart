@@ -37,7 +37,7 @@ class DoingList extends StatelessWidget {
                         child: Checkbox(
                           fillColor: MaterialStateProperty.resolveWith((states) => Colors.grey),
                           value: element.done,
-                          onChanged: (value) => homeCtrl.doneTodos,
+                          onChanged: (value) => homeCtrl.doneTodo(element.title),
                         ),
                       ),
                       SizedBox(width: 3.0.wp),
@@ -48,7 +48,12 @@ class DoingList extends StatelessWidget {
                     ],
                   ),
                 ),
-              )],
+              ),
+              if (homeCtrl.doingTodos.isNotEmpty) Padding(
+                padding: EdgeInsetsGeometry.symmetric(horizontal: 5.0.wp),
+                child: Divider(thickness: 2),
+              )
+            ],
           ),
     );
   }

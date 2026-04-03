@@ -79,7 +79,7 @@ class HomeController extends GetxController {
   }
 
   bool containTodo(List todos, String title) {
-    return todos.any((element) => element['title'] == title);
+    return todos.any((element) => element.title == title);
   }
 
   bool addTodo(String title) {
@@ -98,7 +98,31 @@ class HomeController extends GetxController {
     tasks.refresh();
   }
 
-  void doneTodo() {
-    
+  void doneTodo(String title) {
+    int index = doingTodos.indexWhere((element) => element.title == title);
+    doingTodos.removeAt(index);
+    doneTodos.add(TodoExmaple(title: title, done: true));
+    doingTodos.refresh();
+    doneTodos.refresh();
+  }
+
+  void deleteDoneTodo(String title) {
+    int index = doneTodos.indexWhere((element) => element.title == title);
+    doneTodos.removeAt(index);
+    doneTodos.refresh();
+  }
+
+  bool isTodosEmpty(Task task) {
+    return task.todos.isEmpty;
+  }
+
+  int getDoneTodos(Task task) {
+    var res = 0;
+    for (int i = 0; i < task.todos.length; i++) {
+      if (task.todos[i].done == true) {
+        res += 1;
+      }
+    }
+    return res;
   }
 }

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:taskmanager/app/core/utils/extension.dart';
 import 'package:taskmanager/app/route/detail/widgets/doing_list.dart';
+import 'package:taskmanager/app/route/detail/widgets/done_list.dart';
 import 'package:taskmanager/app/route/home/controller.dart';
 
 class DetailPage extends StatelessWidget {
@@ -119,7 +120,8 @@ class DetailPage extends StatelessWidget {
                 },
               ),
             ),
-            DoingList()
+            DoingList(),
+            DoneList(),
           ],
         ), 
       ),
